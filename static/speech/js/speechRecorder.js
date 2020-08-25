@@ -19,8 +19,6 @@ const send_records = (blob) => {
     RECOGNITION_RESULT = document.getElementById("table_body_result");
 
     var data = new FormData();
-    data.append("filename", encodeURIComponent(new Date().getTime()));
-    data.append("token", "046ed1f5-7560-4390-9289-aecfeb7fde0d");
 
     if (MULTIFILE) {
         var blobs = $("#multiaudio")[0].files;
@@ -56,7 +54,7 @@ const send_records = (blob) => {
                         );
                     });
                 } else {
-                    ERROR_FIELD.innerHTML = "Ошибка: " + response;
+                    ERROR_FIELD.innerHTML = "Error: " + response;
                     ERROR_FIELD.style.display = "block";
                 }
             }

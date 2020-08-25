@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% from "_formhelpers.html" import render_field %}
+
+{% block title %}SOVA ASR{% endblock %}
+
+{% block head %}
+    <script type="text/javascript" src="{{ url_for('static', filename='speech/js/speechRecorder.js') }}"></script>
+{% endblock %}
+
+{% block sections %}
+    <span style="display: none;"><audio id="voice"></audio></span>
+
+    <span id="rec_err" style="display: none; text-align: center;">
+      <div>Your current browser does not support audio recording :(</div>
+      <div>Please try the latest version of <a href="https://www.google.com/chrome/">Google Chrome</a> and grant microphone use permissions to the browser on load.</div>
+    </span>
+
+    <section id="id-form-section">
+        <input type="file" id="multiaudio" multiple style="position: absolute; right: 75px; top: 75px;">
+        <h1>
+            Speech Recognition
+        </h1>
+        <div id="info">
+            Click on the microphone icon, record audio and wait for the ASR results. You can start recording by pressing "space" or "enter". You can also upload multiple audio files via "Choose Files" button.
+        </div>
+        <i id="rec_btn" class="fa fa-microphone act_btn"></i>
+        <div id="recording-meter"></div>
+
+        <div id="error_field" style="display: none;"></div>
+
+    </section>
+    <div id="recognition_result">
+        <div id="recognition_result_table">
+            <table id="table_result">
+                <thead>
+                <tr>
+                    <th class="model_audio">Audio</th>
+                    <th class="model_time">Recognition time</th>
+                    <th class="model_text">Recognized text</th>
+                </tr>
+                </thead>
+                <tbody id="table_body_result">
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="static/speech/js/web-audio-recording-tests-simpler-master/js/WebAudioPeakMeter.js"></script>
+    <script src="static/speech/js/web-audio-recording-tests-simpler-master/js/encoder-wav-worker.js"></script>
+    <script src="static/speech/js/web-audio-recording-tests-simpler-master/js/RecorderService.js"></script>
+    <script src="static/speech/js/web-audio-recording-tests-simpler-master/js/app.js"></script>
+    <script>
+        function initApp () {
+          let app = new App();
+          app.init()
+        }
+
+        window.onload = function (e) { initApp() };
+    </script>
+{% endblock %}

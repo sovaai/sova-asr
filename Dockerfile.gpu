@@ -38,6 +38,7 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 RUN pip3 install https://github.com/kpu/kenlm/archive/master.zip
 RUN ln -s /usr/local/cuda/targets/x86_64-linux/lib/ /usr/local/cuda/lib64/
+RUN pip3 install colorama
 RUN pip3 install PuzzleLib --install-option="--backend=cuda"
 RUN rm -rf $PROJECT_DIR/*
 RUN apt-get install -y locales && locale-gen en_US.UTF-8

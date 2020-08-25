@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Vollkorn&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='speech/css/styles.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+
+<header>
+</header>
+
+<div id="content">
+    {% block sections %}
+    {% endblock %}
+</div>
+
+<footer>
+    <div id="copyright">
+        &copy;
+        <script>document.write(new Date().getFullYear())</script>
+        | SOVA ASR 
+    </div>
+    <nav>
+        <a href="https://sova.ai/" target="_blank">About</a>&nbsp&nbsp 
+    </nav>
+</footer>
+</body>

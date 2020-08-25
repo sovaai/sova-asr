@@ -1,0 +1,48 @@
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get upgrade -y && apt-get autoremove && apt-get autoclean
+RUN apt-get install -y \
+    vim \
+    libreadline-gplv2-dev \
+    libncursesw5-dev \
+    libssl-dev \
+    libsqlite3-dev \
+    tk-dev \ 
+    libgdbm-dev \
+    libc6-dev \
+    libbz2-dev \
+    python3-setuptools \
+    libboost-all-dev \
+    build-essential \
+    checkinstall \
+    libc-dev \
+    python3-pkg-resources \ 
+    python-setuptools-doc \
+    python3-pip \ 
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
+    git \
+    ffmpeg
+
+ARG PROJECT=sova-asr-gpu
+ARG PROJECT_DIR=/sova-asr
+RUN mkdir -p $PROJECT_DIR
+WORKDIR $PROJECT_DIR
+
+COPY requirements.txt .
+RUN pip3 install --upgrade pip
+RUN pip3 install -r requirements.txt
+RUN pip3 install https://github.com/kpu/kenlm/archive/master.zip
+RUN ln -s /usr/local/cuda/targets/x86_64-linux/lib/ /usr/local/cuda/lib64/
+RUN pip3 install PuzzleLib --install-option="--backend=cuda"
+RUN rm -rf $PROJECT_DIR/*
+RUN apt-get install -y locales && locale-gen en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
+ENV LC_ALL en_US.UTF-8
+
+CMD gunicorn --access-logfile - -w 1 --bind 0.0.0.0:8888 app:app --timeout 15000 

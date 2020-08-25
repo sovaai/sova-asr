@@ -1,0 +1,29 @@
+version: '2.3'
+
+services:
+  sova-asr-gpu:
+    restart: always
+    container_name: sova-asr-gpu
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
+    runtime: nvidia
+    environment:
+            - NVIDIA_VISIBLE_DEVICES=all
+    image: sova-asr-gpu:master
+    volumes:
+      - .:/sova-asr
+    ports:
+      - 8888:8888
+
+  sova-asr:
+    restart: always
+    container_name: sova-asr
+    build:
+      context: .
+      dockerfile: Dockerfile.cpu
+    image: sova-asr:master
+    volumes:
+      - .:/sova-asr
+    ports:
+      - 8888:8888

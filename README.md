@@ -74,11 +74,11 @@ $ tar -xvf Data.tar && rm Data.tar
 *   Build docker image
      *   Build *sova-asr-gpu* image if you're planning on using GPU:
      ```bash
-     docker-compose build sova-asr-gpu
+     $ sudo docker-compose build sova-asr-gpu
      ```
      *   Build *sova-asr* image if you're planning on using CPU:
      ```bash
-     docker-compose build sova-asr
+     $ sudo docker-compose build sova-asr
      ```
 
 *	Run the desired service container

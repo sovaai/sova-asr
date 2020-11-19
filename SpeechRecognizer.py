@@ -68,6 +68,8 @@ class SpeechRecognizer(object):
             from PuzzleLib.Backend.gpuarray import memoryPool
             memoryPool.freeHeld()
 
+        del inputs, output
+
         return [result]
 
 

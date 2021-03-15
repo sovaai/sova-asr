@@ -1,7 +1,7 @@
 import numpy as np
 import argparse
 import configparser
-from DataLoader import DataLoader
+from DataLoader import preprocess
 from Decoder import GreedyDecoder
 
 
@@ -25,12 +25,6 @@ class SpeechRecognizer(object):
         from PuzzleLib.Models.Nets.WaveToLetter import loadW2L
         from PuzzleLib.Modules import MoveAxis
 
-        self.data_loader = DataLoader(
-            sample_rate=self.sample_rate,
-            window_size=self.window_size,
-            window_stride=self.window_stride
-        )
-
         nfft = int(self.sample_rate * self.window_size)
         self.w2l = loadW2L(modelpath=self.config['Wav2Letter']['model_path'], inmaps=(1 + nfft // 2),
                            nlabels=len(self.labels))
@@ -52,7 +46,7 @@ class SpeechRecognizer(object):
             self.decoder = GreedyDecoder(self.labels)
 
     def recognize(self, audio_path):
-        preprocessed_audio = self.data_loader.preprocess(audio_path)
+        preprocessed_audio = preprocess(audio_path, self.sample_rate, self.window_size, self.window_stride)
         if self.cpu:
             from PuzzleLib.CPU.CPUArray import CPUArray
             inputs = CPUArray.toDevice(np.array([preprocessed_audio]).astype(np.float32))

@@ -9,10 +9,11 @@ services:
       dockerfile: Dockerfile.gpu
     runtime: nvidia
     environment:
-            - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_VISIBLE_DEVICES=all
     image: sova-asr-gpu:master
     volumes:
       - .:/sova-asr
+    command: bash -c "gunicorn --access-logfile - -w 1 --bind 0.0.0.0:8888 app:app --timeout 15000"
     ports:
       - 8888:8888
 
@@ -25,5 +26,20 @@ services:
     image: sova-asr:master
     volumes:
       - .:/sova-asr
+    command: bash -c "gunicorn --access-logfile - -w 1 --bind 0.0.0.0:8888 app:app --timeout 15000"
     ports:
       - 8888:8888
+
+  sova-asr-train:
+    restart: "no"
+    container_name: sova-asr-train
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    image: sova-asr-gpu:master
+    volumes:
+      - .:/sova-asr
+    command: bash -c "python3 Train.py"

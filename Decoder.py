@@ -10,9 +10,11 @@ class GreedyDecoder:
         self.labels = labels
         self.blank = blank
 
-    def decode(self, output):
+    def decode(self, output, max_len=None):
         output = softmax(output.astype(np.float32), axis=-1)
         best_path = np.argmax(output, axis=1)
+        if max_len is not None:
+            best_path = best_path[:max_len]
         return "".join(self.labels[k] for k, _ in itertools.groupby(best_path) if k != self.blank)
 
 

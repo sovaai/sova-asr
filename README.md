@@ -72,7 +72,7 @@ $ tar -xvf Data.tar && rm Data.tar
 ```
 
 *   Build docker image
-     *   Build *sova-asr-gpu* image if you're planning on using GPU:
+     *   Build *sova-asr-gpu* image if you're planning on using GPU (it is required for training):
      ```bash
      $ sudo docker-compose build sova-asr-gpu
      ```
@@ -98,6 +98,28 @@ To test the service you can send a POST request:
 $ curl --request POST 'http://localhost:8888/asr/' --form 'audio_blob=@"Data/test.wav"'
 ```
 
+## Finetuning acoustic model
+
+If you want to finetune the acoustic model you can set hyperparameters and paths to your own train and validation manifest files and run the training service.
+
+*	Set training options in *Train* section of **config.ini**. Train and validation csv manifest files should contain comma-separated audio file paths and reference texts in each line. For instance:
+     ```bash
+     Data/Audio/000000.wav,добрый день
+     Data/Audio/000001.wav,как ваши дела
+     ...
+     ```
+*	Run training in docker container:
+     ```bash
+     $ sudo docker-compose up -d sova-asr-train
+     ```
+
+## Testing
+
+To test the service you can send a POST request:
+```bash
+$ curl --request POST 'http://localhost:8888/asr/' --form 'audio_blob=@"Data/test.wav"'
+```
+
 ## Customizations
 
-You may want to train your own acoustic model, in order to do so go through [PuzzleLib tutorials](https://puzzlelib.org/tutorials/Wav2Letter/). Check [KenLM documentation](https://kheafield.com/code/kenlm/) for building your own language model. This repository was tested on Ubuntu 18.04 and has pre-built .so Trie decoder files for Python 3.6 running inside the Docker container, for modifications you can get your own .so files using [Wav2Letter++](https://github.com/facebookresearch/wav2letter) code for building Python bindings. Otherwise you can use a standard Greedy decoder (set in config.ini).
+If you want to train your own acoustic model refer to [PuzzleLib tutorials](https://puzzlelib.org/tutorials/Wav2Letter/). Check [KenLM documentation](https://kheafield.com/code/kenlm/) for building your own language model. This repository was tested on Ubuntu 18.04 and has pre-built .so Trie decoder files for Python 3.6 running inside the Docker container, for modifications you can get your own .so files using [Wav2Letter++](https://github.com/facebookresearch/wav2letter) code for building Python bindings. Otherwise you can use a standard Greedy decoder (set in config.ini).

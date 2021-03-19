@@ -63,6 +63,8 @@ $ sudo systemctl restart docker.service
 
 #### Build and deploy
 
+**In order to run service with pretrained models you will have to download http://dataset.sova.ai/SOVA-ASR/Data.tar.**
+
 *   Clone the repository, download the pretrained models archive and extract the contents into the project folder:
 ```bash
 $ git clone --recursive https://github.com/sovaai/sova-asr.git

@@ -1,8 +1,8 @@
 import numpy as np
 import argparse
 import configparser
-from DataLoader import preprocess
-from Decoder import GreedyDecoder
+from data_loader import preprocess
+from decoder import GreedyDecoder
 
 
 class SpeechRecognizer(object):
@@ -36,7 +36,7 @@ class SpeechRecognizer(object):
         self.w2l.evalMode()
 
         if not self.greedy:
-            from Decoder import TrieDecoder
+            from decoder import TrieDecoder
             lexicon = self.config['Wav2Letter']['lexicon']
             tokens = self.config['Wav2Letter']['tokens']
             lm_path = self.config['Wav2Letter']['lm_path']
@@ -69,7 +69,7 @@ class SpeechRecognizer(object):
 
 def test():
     parser = argparse.ArgumentParser(description='Pipeline')
-    parser.add_argument('--audio', default='Data/test.wav', metavar='DIR', help='Path to wav file')
+    parser.add_argument('--audio', default='data/test.wav', metavar='DIR', help='Path to wav file')
     parser.add_argument('--config', default='config.ini', help='Path to config')
     args = parser.parse_args()
 

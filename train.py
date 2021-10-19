@@ -4,8 +4,8 @@ import os
 from shutil import copyfile
 import configparser
 import Levenshtein
-from DataLoader import DataLoader, SpectrogramDataset, BucketingSampler
-from Decoder import GreedyDecoder
+from data_loader import DataLoader, SpectrogramDataset, BucketingSampler
+from decoder import GreedyDecoder
 from PuzzleLib.Models.Nets.WaveToLetter import loadW2L
 from PuzzleLib.Backend import gpuarray
 from PuzzleLib.Cost.CTC import CTC

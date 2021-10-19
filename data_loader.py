@@ -1,6 +1,6 @@
 import numpy as np
 import scipy
-from Utils import stft, magphase
+from utils import stft, magphase
 from pydub import AudioSegment
 
 

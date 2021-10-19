@@ -60,8 +60,8 @@ class GreedyDecoder:
 
 class TrieDecoder:
     def __init__(self, lexicon, tokens, lm_path, beam_threshold=30):
-        from TrieDecoder.Common import Dictionary, create_word_dict, load_words
-        from TrieDecoder.Decoder import CriterionType, DecoderOptions, KenLM, LexiconDecoder
+        from trie_decoder.common import Dictionary, create_word_dict, load_words
+        from trie_decoder.decoder import CriterionType, DecoderOptions, KenLM, LexiconDecoder
         lexicon = load_words(lexicon)
         self.wordDict = create_word_dict(lexicon)
         self.tokenDict = Dictionary(tokens)
@@ -80,8 +80,8 @@ class TrieDecoder:
         self.delim_idx = self.tokenDict.get_index("|")
 
     def get_trie(self, lexicon):
-        from TrieDecoder.Common import tkn_to_idx
-        from TrieDecoder.Decoder import SmearingMode, Trie
+        from trie_decoder.common import tkn_to_idx
+        from trie_decoder.decoder import SmearingMode, Trie
         unk_idx = self.wordDict.get_index("<unk>")
         sil_idx = blank_idx = self.tokenDict.get_index("#")
 

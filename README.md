@@ -63,24 +63,24 @@ $ sudo systemctl restart docker.service
 
 #### Build and deploy
 
-**In order to run service with pretrained models you will have to download http://dataset.sova.ai/SOVA-ASR/Data.tar.**
+**In order to run service with pretrained models you will have to download http://dataset.sova.ai/SOVA-ASR/data.tar.gz.**
 
 *   Clone the repository, download the pretrained models archive and extract the contents into the project folder:
 ```bash
 $ git clone --recursive https://github.com/sovaai/sova-asr.git
 $ cd sova-asr/
-$ wget http://dataset.sova.ai/SOVA-ASR/Data.tar
-$ tar -xvf Data.tar && rm Data.tar
+$ wget http://dataset.sova.ai/SOVA-ASR/data.tar.gz
+$ tar -xvf data.tar.gz && rm data.tar.gz
 ```
 
 *   Build docker image
      *   If you're planning on using GPU (it is required for training and can be used for inference): build *sova-asr* image using the following command:
      ```bash
-     $ sudo docker-compose build sova-asr
+     $ sudo docker-compose build
      ```
      *   If you're planning on using CPU only: modify `Dockerfile`, `docker-compose.yml` (remove the runtime and environment sections) and `config.ini` (*cpu* should be set to 0) and build *sova-asr* image:
      ```bash
-     $ sudo docker-compose build sova-asr
+     $ sudo docker-compose build
      ```
 
 *	Run web service in a docker container
@@ -92,7 +92,7 @@ $ tar -xvf Data.tar && rm Data.tar
 
 To test the service you can send a POST request:
 ```bash
-$ curl --request POST 'http://localhost:8888/asr' --form 'audio_blob=@"Data/test.wav"'
+$ curl --request POST 'http://localhost:8888/asr' --form 'audio_blob=@"data/test.wav"'
 ```
 
 ## Finetuning acoustic model
@@ -101,8 +101,8 @@ If you want to finetune the acoustic model you can set hyperparameters and paths
 
 *	Set training options in *Train* section of **config.ini**. Train and validation csv manifest files should contain comma-separated audio file paths and reference texts in each line. For instance:
      ```bash
-     Data/Audio/000000.wav,добрый день
-     Data/Audio/000001.wav,как ваши дела
+     data/audio/000000.wav,добрый день
+     data/audio/000001.wav,как ваши дела
      ...
      ```
 *	Run training in docker container:

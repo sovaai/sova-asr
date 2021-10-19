@@ -1,6 +1,6 @@
-Data/
-Records/
-Checkpoints/
+data/
+records/
+checkpoints/
 __pycache__/
 .idea/
 .DS_Store

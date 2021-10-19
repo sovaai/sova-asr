@@ -3,10 +3,12 @@ import subprocess
 import time
 import logging
 import uuid
-from SpeechRecognizer import SpeechRecognizer
+from speech_recognizer import SpeechRecognizer
+from punctuator import Punctuator
 
 
-speechRecognizer = SpeechRecognizer()
+speech_recognizer = SpeechRecognizer()
+punctuator = Punctuator(model_path="data/punctuator")
 
 
 class FileHandler:
@@ -14,8 +16,8 @@ class FileHandler:
     def get_recognized_text(blob):
         try:
             filename = str(uuid.uuid4())
-            os.makedirs('./Records', exist_ok=True)
-            new_record_path = os.path.join('./Records', filename + '.webm')
+            os.makedirs('./records', exist_ok=True)
+            new_record_path = os.path.join('./records', filename + '.webm')
             blob.save(new_record_path)
             new_filename = filename + '.wav'
             converted_record_path = FileHandler.convert_to_wav(new_record_path, new_filename)
@@ -27,7 +29,7 @@ class FileHandler:
 
     @staticmethod
     def convert_to_wav(webm_full_filepath, new_filename):
-        converted_record_path = os.path.join('./Records', new_filename)
+        converted_record_path = os.path.join('./records', new_filename)
         subprocess.call('ffmpeg -i {0} -ar 16000 -b:a 256k -ac 1 -sample_fmt s16 {1}'.format(
                 webm_full_filepath, converted_record_path
             ),
@@ -51,11 +53,12 @@ class FileHandler:
     def get_models_result(converted_record_path, delimiter='<br>'):
         results = []
         start = time.time()
-        decoder_result = speechRecognizer.recognize(converted_record_path)
+        decoder_result = speech_recognizer.recognize(converted_record_path)
+        text = punctuator.predict(decoder_result.text)
         end = time.time()
         results.append(
             {
-                'text': decoder_result.text,
+                'text': text,
                 'time': round(end - start, 3),
                 'confidence': decoder_result.score,
                 'words': decoder_result.words

@@ -30,7 +30,7 @@ const send_records = (blob) => {
         data.append("audio_blob", blob ? blob : BLOB);
     }
 
-    fetch("/asr/", { method: "post", body: data })
+    fetch("/asr", { method: "post", body: data })
         .then((response) => {
             if (!response.ok) throw response;
             return response.json();

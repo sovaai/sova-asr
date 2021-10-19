@@ -74,21 +74,16 @@ $ tar -xvf Data.tar && rm Data.tar
 ```
 
 *   Build docker image
-     *   Build *sova-asr-gpu* image if you're planning on using GPU (it is required for training):
+     *   If you're planning on using GPU (it is required for training and can be used for inference): build *sova-asr* image using the following command:
      ```bash
-     $ sudo docker-compose build sova-asr-gpu
+     $ sudo docker-compose build sova-asr
      ```
-     *   Build *sova-asr* image if you're planning on using CPU:
+     *   If you're planning on using CPU only: modify `Dockerfile`, `docker-compose.yml` (remove the runtime and environment sections) and `config.ini` (*cpu* should be set to 0) and build *sova-asr* image:
      ```bash
      $ sudo docker-compose build sova-asr
      ```
 
-*	Run the desired service container
-     *   GPU (check that you're using GPU in **config.ini** (*cpu* should be set to 0):
-     ```bash
-     $ sudo docker-compose up -d sova-asr-gpu
-     ```
-     *   CPU:
+*	Run web service in a docker container
      ```bash
      $ sudo docker-compose up -d sova-asr
      ```
@@ -97,7 +92,7 @@ $ tar -xvf Data.tar && rm Data.tar
 
 To test the service you can send a POST request:
 ```bash
-$ curl --request POST 'http://localhost:8888/asr/' --form 'audio_blob=@"Data/test.wav"'
+$ curl --request POST 'http://localhost:8888/asr' --form 'audio_blob=@"Data/test.wav"'
 ```
 
 ## Finetuning acoustic model
@@ -114,13 +109,6 @@ If you want to finetune the acoustic model you can set hyperparameters and paths
      ```bash
      $ sudo docker-compose up -d sova-asr-train
      ```
-
-## Testing
-
-To test the service you can send a POST request:
-```bash
-$ curl --request POST 'http://localhost:8888/asr/' --form 'audio_blob=@"Data/test.wav"'
-```
 
 ## Customizations
 

@@ -11,7 +11,7 @@ def index():
     return render_template('speechRecognition.html')
 
 
-@app.route('/asr/', methods=['POST'])
+@app.route('/asr', methods=['POST'])
 def asr():
     res = []
     for f in request.files:

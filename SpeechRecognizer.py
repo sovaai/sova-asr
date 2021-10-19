@@ -64,7 +64,7 @@ class SpeechRecognizer(object):
 
         del inputs, output
 
-        return [result]
+        return result
 
 
 def test():

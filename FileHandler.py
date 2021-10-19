@@ -40,19 +40,25 @@ class FileHandler:
 
     @staticmethod
     def check_format(files):
-        return (files.mimetype.startswith('audio/') or
-                [files.filename.endswith(audio_format) for audio_format in ['mp3', 'ogg', 'acc', 'flac', 'au', 'm4a']])
+        return (files.mimetype.startswith('audio/') or [
+            files.filename.endswith(audio_format) for audio_format in [
+                'mp3', 'ogg', 'acc', 'flac', 'au', 'm4a', 'mp4', 'mov', 'avi', 'wmv', '3gp', 'flv', 'mkv'
+            ]
+        ])
+        return True
 
     @staticmethod
     def get_models_result(converted_record_path, delimiter='<br>'):
         results = []
         start = time.time()
-        recognized_texts = speechRecognizer.recognize(converted_record_path)
+        decoder_result = speechRecognizer.recognize(converted_record_path)
         end = time.time()
         results.append(
             {
-                'text': delimiter.join([str(text) for text in recognized_texts if text is not None]),
-                'time': round(end - start, 3)
+                'text': decoder_result.text,
+                'time': round(end - start, 3),
+                'confidence': decoder_result.score,
+                'words': decoder_result.words
             }
         )
         return results

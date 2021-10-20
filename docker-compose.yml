@@ -30,4 +30,4 @@ services:
     image: sova-asr:master
     volumes:
       - .:/sova-asr
-    command: bash -c "python3 Train.py"
+    command: bash -c "python3 train.py"

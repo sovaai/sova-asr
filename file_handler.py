@@ -5,10 +5,12 @@ import logging
 import uuid
 from speech_recognizer import SpeechRecognizer
 from punctuator import Punctuator
+from number_utils.text2numbers import TextToNumbers
 
 
 speech_recognizer = SpeechRecognizer()
 punctuator = Punctuator(model_path="data/punctuator")
+text2numbers = TextToNumbers()
 
 
 class FileHandler:
@@ -55,6 +57,7 @@ class FileHandler:
         start = time.time()
         decoder_result = speech_recognizer.recognize(converted_record_path)
         text = punctuator.predict(decoder_result.text)
+        text = text2numbers.convert(text)
         end = time.time()
         results.append(
             {

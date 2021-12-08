@@ -1,6 +1,6 @@
 # If using CPU only replace the following line with:
-# FROM ubuntu:18.04
-FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
+FROM ubuntu:18.04
+# FROM nvidia/cuda:10.2-cudnn7-devel-ubuntu18.04
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -17,9 +17,9 @@ RUN pip3 install --upgrade pip
 RUN pip3 install -r requirements.txt
 
 # If using CPU only replace the following two lines with:
-# RUN pip3 install PuzzleLib
-RUN ln -s /usr/local/cuda/targets/x86_64-linux/lib/ /usr/local/cuda/lib64/
-RUN pip3 install PuzzleLib==1.0.3a0 --install-option="--backend=cuda"
+RUN pip3 install PuzzleLib==1.0.3a0
+# RUN ln -s /usr/local/cuda/targets/x86_64-linux/lib/ /usr/local/cuda/lib64/
+# RUN pip3 install PuzzleLib==1.0.3a0 --install-option="--backend=cuda"
 
 RUN rm -rf $PROJECT_DIR/*
 

@@ -7,9 +7,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    runtime: nvidia
-    environment:
-      - NVIDIA_VISIBLE_DEVICES=all
+#    runtime: nvidia
+#    environment:
+#      - NVIDIA_VISIBLE_DEVICES=all
 
     image: sova-asr:master
     volumes:
